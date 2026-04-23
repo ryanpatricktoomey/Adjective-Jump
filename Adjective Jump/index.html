@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>Adjective Jump</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      width: 100%; height: 100%;
+      background: #07070f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      font-family: 'Segoe UI', 'Apple SD Gothic Neo', Arial, sans-serif;
+      touch-action: none;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    #game-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    canvas {
+      display: block;
+      touch-action: none;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+
+    /* Loading screen shown before Phaser boots */
+    #pre-loader {
+      position: fixed;
+      inset: 0;
+      background: #0d0d1a;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      z-index: 9999;
+      transition: opacity 0.4s;
+    }
+    #pre-loader h1 {
+      font-size: 32px;
+      color: #ffffff;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+    #pre-loader p  { font-size: 14px; color: #4ecdc4; }
+    #pre-loader .bar-wrap {
+      width: 200px; height: 6px;
+      background: #222244;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    #pre-loader .bar {
+      height: 100%;
+      width: 0;
+      background: #4ecdc4;
+      border-radius: 3px;
+      animation: loadBar 0.8s ease forwards;
+    }
+    @keyframes loadBar { to { width: 100%; } }
+  </style>
+</head>
+<body>
+
+  <!-- Pre-loader (removed once Phaser is ready) -->
+  <div id="pre-loader">
+    <h1>Adjective Jump</h1>
+    <p>영어 형용사 순서 게임</p>
+    <div class="bar-wrap"><div class="bar"></div></div>
+  </div>
+
+  <div id="game-container"></div>
+
+  <!-- ── Phaser 3 (CDN) ── -->
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.min.js"></script>
+
+  <!-- ── Data layer ── -->
+  <script src="src/data/adjectives.js"></script>
+  <script src="src/data/nouns.js"></script>
+  <script src="src/data/explanations.js"></script>
+  <script src="src/data/levels.js"></script>
+
+  <!-- ── Systems ── -->
+  <script src="src/systems/AudioManager.js"></script>
+  <script src="src/systems/ContentEngine.js"></script>
+  <script src="src/systems/ScoreSystem.js"></script>
+
+  <!-- ── Game objects ── -->
+  <script src="src/objects/Tile.js"></script>
+  <script src="src/objects/Board.js"></script>
+  <script src="src/objects/Character.js"></script>
+
+  <!-- ── Scenes ── -->
+  <script src="src/scenes/BootScene.js"></script>
+  <script src="src/scenes/MenuScene.js"></script>
+  <script src="src/scenes/GameScene.js"></script>
+  <script src="src/scenes/UIScene.js"></script>
+  <script src="src/scenes/LevelCompleteScene.js"></script>
+  <script src="src/scenes/GameOverScene.js"></script>
+
+  <!-- ── Entry point ── -->
+  <script src="game.js"></script>
+
+  <!-- Remove pre-loader once Phaser starts -->
+  <script>
+    window.addEventListener('load', () => {
+      const pl = document.getElementById('pre-loader');
+      if (pl) setTimeout(() => { pl.style.opacity = '0'; setTimeout(() => pl.remove(), 450); }, 600);
+    });
+  </script>
+
+</body>
+</html>
